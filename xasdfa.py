@@ -5,11 +5,14 @@
 
 import simpy
 import random
+from time import time
 
 class globales:
     rtot=0
-
+tiempo_inicial = time() 
 def x(nombre,env, ram, cpu):
+   
+   
     inst = random.randint(1,10)
     
     llegada = random.expovariate(1.0/10)
@@ -42,7 +45,7 @@ def x(nombre,env, ram, cpu):
             if (inst<=0):
                 break
             else:
-                inst=inst-3
+                inst=inst-10
                 destino=random.randint(1,2)
                 if (destino==1):
                     io=random.randint(1,10)
@@ -60,12 +63,19 @@ env = simpy.Environment() #ambiente de simulación
 ram = simpy.Container(env, init=10, capacity = 100)
 cpu = simpy.Resource(env, capacity=1)
 
-for i in range(10):
+
+for i in range(50):
     env.process(x(' %d'%i,env, ram, cpu))
 
    
 env.run(until = 200)
 print(globales.rtot)
+
+tiempo_final = time()
+
+tiempo_ejecucion = tiempo_final - tiempo_inicial
+
+print 'El tiempo de ejecucion fue:',tiempo_ejecucion #En segundos
 
 
 
